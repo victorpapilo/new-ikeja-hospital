@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ivory text-navy font-body antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+  ::selection {
+    @apply bg-teal-400/30;
+  }
+}
+
+@layer utilities {
+  .container-hosp {
+    @apply max-w-7xl mx-auto px-6 md:px-10;
+  }
+}
+
+/* Respect people who've asked for less motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visible keyboard focus */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid #1DB2B9;
+  outline-offset: 3px;
+}
+
+/* --- Signature visual details --- */
+
+/* Organic morphing blob mask, used behind/around the hero photo */
+@keyframes blob-morph {
+  0%   { border-radius: 63% 37% 54% 46% / 55% 45% 55% 45%; }
+  33%  { border-radius: 46% 54% 38% 62% / 49% 60% 40% 51%; }
+  66%  { border-radius: 56% 44% 61% 39% / 40% 42% 58% 60%; }
+  100% { border-radius: 63% 37% 54% 46% / 55% 45% 55% 45%; }
+}
+.blob-mask {
+  border-radius: 63% 37% 54% 46% / 55% 45% 55% 45%;
+  animation: blob-morph 14s ease-in-out infinite;
+}
+.blob-mask-alt {
+  border-radius: 42% 58% 65% 35% / 45% 40% 60% 55%;
+  animation: blob-morph 18s ease-in-out infinite reverse;
+}
+
+/* Subtle film-grain overlay so flat colour fields don't look sterile/templated */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Editorial section label: small caps with a drawn rule, used instead of generic pill badges */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #13777C;
+}
+.eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1.5px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* Continuous horizontal scroll, used for the testimonials marquee */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Diagonal stripe texture, used on the top bar and hero band */
+.stripes-bg {
+  position: relative;
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.055) 0px,
+    rgba(255, 255, 255, 0.055) 1px,
+    transparent 1px,
+    transparent 9px
+  );
+}
+.stripes-bg-light {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(11, 31, 42, 0.05) 0px,
+    rgba(11, 31, 42, 0.05) 1px,
+    transparent 1px,
+    transparent 9px
+  );
+}
+
+
+/* Continuous horizontal marquee, used for the testimonials + trust strip.
+   Plain CSS animation (not framer-motion) so it can be paused on hover. */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee-scroll 38s linear infinite;
+}
+.marquee-group:hover .animate-marquee {
+  animation-play-state: paused;
+}
